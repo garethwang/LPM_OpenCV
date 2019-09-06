@@ -68,6 +68,7 @@ void LPM_Matcher::Match(cv::Mat& cost, std::vector<bool>& labels) {
 }
 
 void LPM_Matcher::Initialize() {
+	
 	CV_Assert(query_points_.size() == refer_points_.size());
 	num_matches_ = static_cast<unsigned int>(query_points_.size());
 	cv::Mat queries = cv::Mat(query_points_).reshape(1);
