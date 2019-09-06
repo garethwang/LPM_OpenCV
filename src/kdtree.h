@@ -1,3 +1,6 @@
+/**
+ @author gishi523 <gishi523@gmail.com>
+ */
 #ifndef __KDTREE_H__
 #define __KDTREE_H__
 
