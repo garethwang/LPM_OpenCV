@@ -19,6 +19,6 @@ A simple c++ implementation of the LPM algorithm.
 
 ## Author
 
-WANG Gang  
+Gareth Wang  
 
-- email: gang.wang@whu.edu.cn
+- email: gareth.wang@hotmail.com
