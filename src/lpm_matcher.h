@@ -1,6 +1,6 @@
 /****************************************************************************************************
  * @file lpm_matcher.h
- * @author WANG Gang <wanggang13@nudt.edu.cn>
+ * @author Gareth Wang <gareth.wang@hotmail.com>
  * @brief The C++ implementation of the LPM algorithm.
  * @details Read the paper "Locality Preserving Matching." written by Jiayi Ma, et al. for details.
  * @date 2019-09-04
