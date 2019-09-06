@@ -12,8 +12,9 @@ int main(int argc, char** argv) {
 
 	//==================== Read the putative matches ====================//
 	std::vector<cv::Point2d> query_pts, refer_pts;
-
-	std::string matches_file = argv[1];
+    
+	// The file path of the putative matches file
+	std::string matches_file = argv[1];  
 	ReadMatchesFromTXT(matches_file.c_str(), query_pts, refer_pts);
 
 	//==================== LPM ====================//
@@ -36,8 +37,13 @@ int main(int argc, char** argv) {
 	std::cout << "Cost time: " << tm.getTimeMilli() << " ms" << std::endl;
 	
 	//==================== Draw the matches ====================//
+	
+	// The file path of the query image
 	std::string img0_file = argv[2];
+	// The file path of the reference image
 	std::string img1_file = argv[3];
+	
+	// Read the images
 	cv::Mat img0 = cv::imread(img0_file);
 	cv::Mat img1 = cv::imread(img1_file);
 	
@@ -45,7 +51,7 @@ int main(int argc, char** argv) {
 	cv::hconcat(img0, img1, concat_img);
 
 	for (int i = 0; i < static_cast<int>(query_pts.size()); ++i) {
-		if (labels1[i]) {
+		if (labels1[i]) { // Only show the inliers
 			cv::line(concat_img, query_pts[i], refer_pts[i] +
 				cv::Point2d(img0.cols, 0), CV_RGB(0, 255, 0), 2, 16);
 		}
