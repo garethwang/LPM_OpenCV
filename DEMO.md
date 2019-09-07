@@ -29,7 +29,7 @@ $ cd ..
 $ ./build/demo_lpm ./data/matches.txt ./data/retina0.jpg ./data/retina1.jpg
 ```
 
-## windows
+## Windows
 
 ### How to build
 
