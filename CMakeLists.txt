@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 2.8)
 set(targetname Demo_LPM) 
 project(${targetname}) 
 
-find_package(OpenCV 2.0 REQUIRED)
+find_package(OpenCV REQUIRED)
 include_directories(${OpenCV_INCLUDE_DIRS})
 
 file(GLOB_RECURSE HEADER_FILES ${CMAKE_CURRENT_SOURCE_DIR}/src/*.h)
