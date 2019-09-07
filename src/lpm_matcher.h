@@ -31,7 +31,7 @@ public:
 	LPM_Matcher(const std::vector<cv::Point2d>& query_points, 
 		const std::vector<cv::Point2d>& refer_points, 
 		const int knn = 8, const double lambda = 0.9, const double tau = 0.2,
-		std::vector<bool>& labels = std::vector<bool>());
+		const std::vector<bool>& labels = std::vector<bool>());
 	
 	~LPM_Matcher();
 
@@ -49,8 +49,9 @@ private:
 	 * @brief  Converts the putative matches into displacement vectors and finds the k-nearest neighbor of the feature points.
 	 *
 	 * @return void 
+	 * @param  labels [in] @see LPM_Matcher
 	 */
-	void Initialize();
+	void Initialize(const std::vector<bool>& labels);
 
 	/**
 	 * @brief  Finds common elements in the two neighborhoods of the feature points from the query image and the reference image.
