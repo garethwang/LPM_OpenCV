@@ -60,7 +60,7 @@ private:
 	 * @param  refer_knn [in] The K-NN of the feature points from the reference image.
 	 * 
 	 */
-	std::vector<std::vector<int>> FindNeighborsIntersection(
+	std::vector<std::vector<int> > FindNeighborsIntersection(
 		const cv::Mat& query_knn, const cv::Mat& refer_knn) const;
 
 	/**
