@@ -1,10 +1,19 @@
-# Sample code 
+# Demo
+
+## Requirements
+
+- CMake
+
+- Git
+
+- C/C++ compiler
+- OpenCV
 
 ## windows
 
 ### How to build
 
-```cmake
+```
 $ git clone https://github.com/garethwang/LPM_OpenCV.git
 $ cd LPM_OpenCV
 $ mkdir build
@@ -18,18 +27,18 @@ $ cmake-gui ../
 - Click on Generate.
 - Close the cmake-gui.
 
-```cmake
+```
 $ cd ..
 $ cmake --build build
 ```
 
 ### How to run
 
-```cmake
+```
 $ ./build/Debug/demo_lpm.exe ./data/matches.txt ./data/retina0.jpg ./data/retina1.jpg
 ```
 
 ## Result
 
-![](https://github.com/garethwang/LPM_OpenCV/blob/master/data/result.jpg)
+![](data/result.jpg)
 
