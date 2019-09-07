@@ -50,11 +50,11 @@ static cv::Mat FindKnnNeighbors(const std::vector<cv::Point2d>& features,
 LPM_Matcher::LPM_Matcher(const std::vector<cv::Point2d>& query_points, 
 	const std::vector<cv::Point2d>& refer_points,
 	const int knn, const double lambda, const double tau,
-	std::vector<bool>& labels)
+	const std::vector<bool>& labels)
 	:query_points_(query_points), refer_points_(refer_points), 
-	num_neighbors_(knn), lambda_(lambda), tau_(tau), labels_(labels) {
+	num_neighbors_(knn), lambda_(lambda), tau_(tau) {
 
-	Initialize();
+	Initialize(labels);
 }
 
 LPM_Matcher::~LPM_Matcher() {
@@ -67,8 +67,7 @@ void LPM_Matcher::Match(cv::Mat& cost, std::vector<bool>& labels) {
 	labels = labels_;
 }
 
-void LPM_Matcher::Initialize() {
-	
+void LPM_Matcher::Initialize(const std::vector<bool>& labels) {
 	CV_Assert(query_points_.size() == refer_points_.size());
 	num_matches_ = static_cast<unsigned int>(query_points_.size());
 	cv::Mat queries = cv::Mat(query_points_).reshape(1);
@@ -85,7 +84,7 @@ void LPM_Matcher::Initialize() {
 	// Find the k-nearest neighbor of the feature points.
 	cv::Mat query_knn(num_matches_, knn, CV_32S);
 	cv::Mat	refer_knn(num_matches_, knn, CV_32S);
-	if (labels_.empty()) {
+	if (labels.empty()) {
 		query_knn = FindKnnNeighbors(query_points_, query_points_, knn);
 		refer_knn = FindKnnNeighbors(refer_points_, refer_points_, knn);
 	}
@@ -93,7 +92,7 @@ void LPM_Matcher::Initialize() {
 		std::vector<cv::Point2d> query_inliers, refer_inliers;
 		std::vector<unsigned int> inlier_indices;
 		for (unsigned int i = 0; i < num_matches_; ++i) {
-			if (labels_[i]) {
+			if (labels[i]) {
 				inlier_indices.push_back(i);
 				query_inliers.push_back(query_points_[i]);
 				refer_inliers.push_back(refer_points_[i]);
@@ -209,7 +208,7 @@ void LPM_Matcher::ComputeMultiScaleCost() {
 
 	lpm_cost_ /= num_scales;
 
-	labels_.clear();
+	//labels_.clear();
 	labels_.resize(num_matches_);
 	double* pcost = (double*)lpm_cost_.data;
 	for (unsigned int i = 0; i < num_matches_; ++i) {
