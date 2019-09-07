@@ -122,10 +122,10 @@ void LPM_Matcher::Initialize() {
 	refer_knn.colRange(1, refer_knn.cols).copyTo(refer_knn_);
 }
 
-std::vector<std::vector<int>> LPM_Matcher::FindNeighborsIntersection(
+std::vector<std::vector<int> > LPM_Matcher::FindNeighborsIntersection(
 	const cv::Mat& query_knn, const cv::Mat& refer_knn) const {
 	
-	std::vector<std::vector<int>> consensus(num_matches_);
+	std::vector<std::vector<int> > consensus(num_matches_);
 	for (unsigned int i = 0; i < num_matches_; ++i) {
 	
 		std::vector<int> vec0(query_knn.row(i).reshape(1));
@@ -153,7 +153,7 @@ cv::Mat LPM_Matcher::ComputeFixedKCost(const cv::Mat& query_knn,
 	int knn = query_knn.cols;
 	double inv_knn = 1.0 / knn;
 
-	std::vector<std::vector<int>> knn_intersection;
+	std::vector<std::vector<int> > knn_intersection;
 	knn_intersection = FindNeighborsIntersection(query_knn, refer_knn);
 
 	// The indices of common elements in the two neighborhoods for the ith match.
