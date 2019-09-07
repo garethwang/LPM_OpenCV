@@ -49,7 +49,7 @@ private:
 	 * @brief  Converts the putative matches into displacement vectors and finds the k-nearest neighbor of the feature points.
 	 *
 	 * @return void 
-	 * @param  labels [in] @see LPM_Matcher
+	 * @param  labels [in] The binary vector that represents the match correctness of the correspondences.
 	 */
 	void Initialize(const std::vector<bool>& labels);
 
