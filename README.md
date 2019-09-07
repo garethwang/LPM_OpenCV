@@ -12,6 +12,10 @@ A simple c++ implementation of the LPM algorithm.
 
 - OpenCV
 
+## How to use
+
+Read **DEMO.md**.
+
 ## References
 
 - Jiayi Ma, Ji Zhao, Junjun Jiang, Huabing Zhou, and Xiaojie Guo. "Locality Preserving Matching", International Journal of Computer Vision, DOI: 10.1007/s11263-018-1117-z.
