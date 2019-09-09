@@ -37,8 +37,7 @@ static cv::Mat FindKnnNeighbors(const std::vector<cv::Point2d>& features,
 	int num_queries = static_cast<int>(queries.size());
 	// Perform a K-nearest neighbor search.
 	cv::Mat indices(num_queries, knn, CV_32S);
-	for (int i = 0; i < num_queries; ++i)
-	{
+	for (int i = 0; i < num_queries; ++i) {
 		Point2D temp_pt(queries[i]);
 		std::vector<int> vec_indices = kdtree.knnSearch(temp_pt, knn);
 		cv::Mat(vec_indices).reshape(1, 1).copyTo(indices.row(i));
@@ -57,8 +56,7 @@ LPM_Matcher::LPM_Matcher(const std::vector<cv::Point2d>& query_points,
 	Initialize(labels);
 }
 
-LPM_Matcher::~LPM_Matcher() {
-}
+LPM_Matcher::~LPM_Matcher() {}
 
 void LPM_Matcher::Match(cv::Mat& cost, std::vector<bool>& labels) {
 
@@ -68,9 +66,9 @@ void LPM_Matcher::Match(cv::Mat& cost, std::vector<bool>& labels) {
 }
 
 void LPM_Matcher::Initialize(const std::vector<bool>& labels) {
-	
+
 	CV_Assert(query_points_.size() == refer_points_.size());
-	num_matches_ = static_cast<unsigned int>(query_points_.size());
+	num_matches_ = static_cast<int>(query_points_.size());
 	cv::Mat queries = cv::Mat(query_points_).reshape(1);
 	cv::Mat referes = cv::Mat(refer_points_).reshape(1);
 
@@ -91,8 +89,8 @@ void LPM_Matcher::Initialize(const std::vector<bool>& labels) {
 	}
 	else { // Construct the neighborhoods based on the inlier set.
 		std::vector<cv::Point2d> query_inliers, refer_inliers;
-		std::vector<unsigned int> inlier_indices;
-		for (unsigned int i = 0; i < num_matches_; ++i) {
+		std::vector<int> inlier_indices;
+		for (int i = 0; i < num_matches_; ++i) {
 			if (labels[i]) {
 				inlier_indices.push_back(i);
 				query_inliers.push_back(query_points_[i]);
@@ -126,8 +124,7 @@ std::vector<std::vector<int> > LPM_Matcher::FindNeighborsIntersection(
 	const cv::Mat& query_knn, const cv::Mat& refer_knn) const {
 	
 	std::vector<std::vector<int> > consensus(num_matches_);
-	for (unsigned int i = 0; i < num_matches_; ++i) {
-	
+	for (int i = 0; i < num_matches_; ++i) {	
 		std::vector<int> vec0(query_knn.row(i).reshape(1));
 		std::vector<int> vec1(refer_knn.row(i).reshape(1));
 
@@ -159,16 +156,16 @@ cv::Mat LPM_Matcher::ComputeFixedKCost(const cv::Mat& query_knn,
 	// The indices of common elements in the two neighborhoods for the ith match.
 	std::vector<int> indices_knni;
 	double* pdis = (double*)vector_lengths_.data;
-	for (unsigned int i = 0; i < num_matches_; ++i) {
+	for (int i = 0; i < num_matches_; ++i) {
 		indices_knni = knn_intersection[i];
 		// The number of common elements in the K-NN.
-		unsigned int num_inter = static_cast<unsigned int>(indices_knni.size());
+		size_t num_inter = indices_knni.size();
 		
 		double c1 = static_cast<double>(knn - num_inter); // K-ni
 
 		double c2 = 0;
 		double* pveci = (double*)match_vectors_.ptr(i);
-		for (unsigned int j = 0; j < num_inter; ++j) {
+		for (size_t j = 0; j < num_inter; ++j) {
 			double* pvecj = (double*)match_vectors_.ptr(indices_knni[j]);
 			//               (vi,vj)
 			// cos(theta) = ---------    Eq.(9)
@@ -186,7 +183,6 @@ cv::Mat LPM_Matcher::ComputeFixedKCost(const cv::Mat& query_knn,
 				c2++;
 			}
 		}
-
 		pcost[i] = (c1 + c2) * inv_knn;
 	}
 
@@ -209,11 +205,9 @@ void LPM_Matcher::ComputeMultiScaleCost() {
 
 	lpm_cost_ /= num_scales;
 
-	//labels_.clear();
 	labels_.resize(num_matches_);
 	double* pcost = (double*)lpm_cost_.data;
-	for (unsigned int i = 0; i < num_matches_; ++i) {
-		
+	for (int i = 0; i < num_matches_; ++i) {		
 		if (pcost[i] <= lambda_)
 			labels_[i] = 1; // pi=1 if ci<=\f$ \lambda\f$
 		else
