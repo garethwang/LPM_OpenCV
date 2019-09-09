@@ -89,7 +89,7 @@ private:
 	const double lambda_;      ///< Parameter \f$ \lambda\f$ controls the threshold for judging the correctness of a putative correspondence.
 	const double tau_;         ///< Parameter \f$ \tau\f$ determines whether a neighboring putative match preserves the consensus of neighborhood topology.
 
-	unsigned int num_matches_; ///< The number of the putative matches.
+	int num_matches_;   ///< The number of the putative matches.
 	
 	cv::Mat query_knn_; ///< The K-NN of the feature points from the query image.
 	cv::Mat refer_knn_; ///< The K-NN of the feature points from the reference image.
