@@ -115,7 +115,8 @@ void LPM_Matcher::Initialize(const std::vector<bool>& labels) {
 		}
 	}
 
-	// Delete the first column, which is the nearest neighbor, i.e. the feature point itself.
+	// Delete the first column, which is the nearest neighbor, i.e. 
+	// the feature point itself.
 	query_knn.colRange(1, query_knn.cols).copyTo(query_knn_);
 	refer_knn.colRange(1, refer_knn.cols).copyTo(refer_knn_);
 }
@@ -174,7 +175,7 @@ cv::Mat LPM_Matcher::ComputeFixedKCost(const cv::Mat& query_knn,
 				(pdis[i] * pdis[indices_knni[j]]);
 
 			//          min{|vi|,|vj|}
-			// ratio = ----------------   Eq.(9)
+			// ratio = ----------------  Eq.(9)
 			//          max{|vi|,|vj|}
 			double ratio = std::min(pdis[i], pdis[indices_knni[j]]) /
 				std::max(pdis[i], pdis[indices_knni[j]]);
@@ -209,8 +210,8 @@ void LPM_Matcher::ComputeMultiScaleCost() {
 	double* pcost = (double*)lpm_cost_.data;
 	for (int i = 0; i < num_matches_; ++i) {		
 		if (pcost[i] <= lambda_)
-			labels_[i] = 1; // pi=1 if ci<=\f$ \lambda\f$
+			labels_[i] = 1; // pi=1 if ci<=lambda
 		else
-			labels_[i] = 0; // pi=0 if ci>\f$ \lambda\f$
+			labels_[i] = 0; // pi=0 if ci>lambda
 	}
 }
