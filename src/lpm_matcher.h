@@ -1,13 +1,14 @@
-/****************************************************************************************************
+/****************************************************************************//**
  * @file lpm_matcher.h
- * @author Gareth Wang <gareth.wang@hotmail.com>
  * @brief The C++ implementation of the LPM algorithm.
- * @details Read the paper "Locality Preserving Matching." written by Jiayi Ma, et al. for details.
+ * @details Read the paper "Locality Preserving Matching" written by Jiayi Ma,
+ * et al. for details.
+ * @author Gareth Wang <gareth.wang@hotmail.com>
  * @date 2019-09-04
  *
  * @copyright Copyright (c) 2019
  *
-*****************************************************************************************************/
+********************************************************************************/
 #ifndef _LPM_MATCHER_H_
 #define _LPM_MATCHER_H_
 #include <opencv2/opencv.hpp>
@@ -82,23 +83,23 @@ private:
 	void ComputeMultiScaleCost();
 
 private:
-	const std::vector<cv::Point2d> query_points_;  ///< Points from the query image.
-	const std::vector<cv::Point2d> refer_points_;  ///< Points from the reference image.
+	const std::vector<cv::Point2d> query_points_;  //!< Points from the query image.
+	const std::vector<cv::Point2d> refer_points_;  //!< Points from the reference image.
 
-	const int num_neighbors_;  ///< The number of nearest neighbors for multi-scale neighborhood construction.
-	const double lambda_;      ///< Parameter \f$ \lambda\f$ controls the threshold for judging the correctness of a putative correspondence.
-	const double tau_;         ///< Parameter \f$ \tau\f$ determines whether a neighboring putative match preserves the consensus of neighborhood topology.
+	const int num_neighbors_;  //!< The number of nearest neighbors for multi-scale neighborhood construction.
+	const double lambda_;      //!< Parameter \f$ \lambda\f$ controls the threshold for judging the correctness of a putative correspondence.
+	const double tau_;         //!< Parameter \f$ \tau\f$ determines whether a neighboring putative match preserves the consensus of neighborhood topology.
 
-	int num_matches_;   ///< The number of the putative matches.
+	int num_matches_;   //!< The number of the putative matches.
 	
-	cv::Mat query_knn_; ///< The K-NN of the feature points from the query image.
-	cv::Mat refer_knn_; ///< The K-NN of the feature points from the reference image.
+	cv::Mat query_knn_; //!< The K-NN of the feature points from the query image.
+	cv::Mat refer_knn_; //!< The K-NN of the feature points from the reference image.
 
-	cv::Mat match_vectors_;  ///< The displacement vectors where the head and tail of each vector correspond to the spatial positions of two corresponding feature points in the two images.
-	cv::Mat vector_lengths_; ///< The lengths of the displacement vectors.
+	cv::Mat match_vectors_;  //!< The displacement vectors where the head and tail of each vector correspond to the spatial positions of two corresponding feature points in the two images.
+	cv::Mat vector_lengths_; //!< The lengths of the displacement vectors.
 
-	std::vector<bool> labels_; ///< The binary vector that represents the match correctness of the correspondences.
-	cv::Mat lpm_cost_;         ///< The costs of the putative matches.
+	std::vector<bool> labels_; //!< The binary vector that represents the match correctness of the correspondences.
+	cv::Mat lpm_cost_;         //!< The costs of the putative matches.
 };
 
 #endif
