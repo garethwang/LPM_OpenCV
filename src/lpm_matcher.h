@@ -1,6 +1,6 @@
 /****************************************************************************//**
  * @file lpm_matcher.h
- * @brief The C++ implementation of the LPM algorithm.
+ * @brief The c++ implementation of the LPM algorithm.
  * @details Read the paper "Locality Preserving Matching" written by Jiayi Ma,
  * et al. for details.
  * @author Gareth Wang <gareth.wang@hotmail.com>
@@ -27,7 +27,8 @@ public:
 	 * @param  knn [in] The number of nearest neighbors.
 	 * @param  lambda [in] \f$ \lambda\f$.
 	 * @param  tau [in] \f$ \tau\f$.
-	 * @param  labels [in] The vector of \f$ N\f$ elements, every element of which is set to 0 for outliers and to 1 for the other points.
+	 * @param  labels [in] The vector of \f$ N\f$ elements, every element of 
+	 *                     which is set to 0 for outliers and to 1 for the other points.
 	 */
 	LPM_Matcher(const std::vector<cv::Point2d>& query_points, 
 		const std::vector<cv::Point2d>& refer_points, 
@@ -41,21 +42,25 @@ public:
 	 *
 	 * @return void 
 	 * @param  cost [out] The costs of the putative matches.
-	 * @param  labels [out] The binary vector that represents the match correctness of the correspondences.
+	 * @param  labels [out] The binary vector that represents the match 
+	 *                      correctness of the correspondences.
 	 */
 	void Match(cv::Mat& cost, std::vector<bool>& labels);
 
 private:
 	/**
-	 * @brief  Converts the putative matches into displacement vectors and finds the k-nearest neighbor of the feature points.
+	 * @brief  Converts the putative matches into displacement vectors and 
+	 *         finds the k-nearest neighbor of the feature points.
 	 *
 	 * @return void 
-	 * @param  labels [in] The binary vector that represents the match correctness of the correspondences.
+	 * @param  labels [in] The binary vector that represents the match 
+	 *                     correctness of the correspondences.
 	 */
 	void Initialize(const std::vector<bool>& labels);
 
 	/**
-	 * @brief  Finds common elements in the two neighborhoods of the feature points from the query image and the reference image.
+	 * @brief  Finds common elements in the two neighborhoods of the feature 
+	 *         points from the query image and the reference image.
 	 *
 	 * @return std::vector<std::vector<int>> The indices of common elements in the two neighborhoods.
 	 * @param  query_knn [in] The K-NN of the feature points from the query image.
@@ -76,7 +81,8 @@ private:
 		const cv::Mat& refer_knn) const;
 
 	/**
-	 * @brief  Computes the costs using a multi-scale neighborhood representation and determines the optimal inlier set.
+	 * @brief  Computes the costs using a multi-scale neighborhood representation 
+	 *         and determines the optimal inlier set.
 	 *
 	 * @return void 
 	 */
@@ -87,18 +93,23 @@ private:
 	const std::vector<cv::Point2d> refer_points_;  //!< Points from the reference image.
 
 	const int num_neighbors_;  //!< The number of nearest neighbors for multi-scale neighborhood construction.
-	const double lambda_;      //!< Parameter \f$ \lambda\f$ controls the threshold for judging the correctness of a putative correspondence.
-	const double tau_;         //!< Parameter \f$ \tau\f$ determines whether a neighboring putative match preserves the consensus of neighborhood topology.
+	const double lambda_;      /**< Parameter \f$ \lambda\f$ controls the threshold for 
+							   judging the correctness of a putative correspondence. */
+	const double tau_;         /**< Parameter \f$ \tau\f$ determines whether a neighboring putative 
+							   match preserves the consensus of neighborhood topology. */
 
 	int num_matches_;   //!< The number of the putative matches.
 	
 	cv::Mat query_knn_; //!< The K-NN of the feature points from the query image.
 	cv::Mat refer_knn_; //!< The K-NN of the feature points from the reference image.
 
-	cv::Mat match_vectors_;  //!< The displacement vectors where the head and tail of each vector correspond to the spatial positions of two corresponding feature points in the two images.
+	cv::Mat match_vectors_;  /**< The displacement vectors where the head and tail of each 
+							 vector correspond to the spatial positions of two corresponding 
+							 feature points in the two images. */
 	cv::Mat vector_lengths_; //!< The lengths of the displacement vectors.
 
-	std::vector<bool> labels_; //!< The binary vector that represents the match correctness of the correspondences.
+	std::vector<bool> labels_; /**< The binary vector that represents the match correctness 
+							   of the correspondences. */
 	cv::Mat lpm_cost_;         //!< The costs of the putative matches.
 };
 
