@@ -1,8 +1,7 @@
 #include <opencv2/opencv.hpp>
-#include<iostream>
+#include <iostream>
 #include <fstream>
 #include "lpm_matcher.h"
-using namespace std;
 
 bool ReadMatchesFromTXT(const char* file_name, 
 	std::vector<cv::Point2d>& query_pts, 
