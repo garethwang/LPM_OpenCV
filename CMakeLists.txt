@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 2.8) 
-set(targetname Demo_LPM) 
-project(${targetname}) 
+ 
+project(Demo_LPM) 
 
 if (CMAKE_COMPILER_IS_GNUCXX)
 
@@ -8,7 +8,10 @@ if (CMAKE_COMPILER_IS_GNUCXX)
 
 endif (CMAKE_COMPILER_IS_GNUCXX)
 
+add_definitions(-DSOURCE_DIR="${CMAKE_SOURCE_DIR}")
+
 find_package(OpenCV REQUIRED)
+
 include_directories(${OpenCV_INCLUDE_DIRS})
 
 file(GLOB_RECURSE HEADER_FILES ${CMAKE_CURRENT_SOURCE_DIR}/src/*.h)
