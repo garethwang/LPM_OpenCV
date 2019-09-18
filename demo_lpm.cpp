@@ -13,7 +13,7 @@ int main(int argc, char** argv) {
 	std::vector<cv::Point2d> query_pts, refer_pts;
     
 	// The file path of the putative matches file
-	std::string matches_file = argv[1];  
+	std::string matches_file = std::string(SOURCE_DIR) + "/data/matches.txt";  
 	ReadMatchesFromTXT(matches_file.c_str(), query_pts, refer_pts);
 
 	//==================== LPM ====================//
@@ -38,9 +38,9 @@ int main(int argc, char** argv) {
 	//==================== Draw the matches ====================//
 	
 	// The file path of the query image
-	std::string img0_file = argv[2];
+	std::string img0_file = std::string(SOURCE_DIR) + "/data/retina0.jpg";
 	// The file path of the reference image
-	std::string img1_file = argv[3];
+	std::string img1_file = std::string(SOURCE_DIR) + "/data/retina1.jpg";
 	
 	// Read the images
 	cv::Mat img0 = cv::imread(img0_file);
