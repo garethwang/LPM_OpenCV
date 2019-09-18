@@ -26,7 +26,7 @@ $ make
 
 ```
 $ cd ..
-$ ./build/demo_lpm ./data/matches.txt ./data/retina0.jpg ./data/retina1.jpg
+$ ./build/demo_lpm
 ```
 
 ## Windows
@@ -55,7 +55,7 @@ $ cmake --build build
 ### How to run
 
 ```
-$ ./build/Debug/demo_lpm.exe ./data/matches.txt ./data/retina0.jpg ./data/retina1.jpg
+$ ./build/Debug/demo_lpm.exe
 ```
 
 ## Result
