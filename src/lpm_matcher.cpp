@@ -1,6 +1,5 @@
 #include "lpm_matcher.h"
 #include "kdtree.h"
-#include <fstream>
 
 /**
  * @brief Class for user-defined 2D points to use the KDTree class. 
@@ -168,9 +167,9 @@ cv::Mat LPM_Matcher::ComputeFixedKCost(const cv::Mat& query_knn,
 		double* pveci = (double*)match_vectors_.ptr(i);
 		for (size_t j = 0; j < num_inter; ++j) {
 			double* pvecj = (double*)match_vectors_.ptr(indices_knni[j]);
-			//               (vi,vj)
-			// cos(theta) = ---------    Eq.(9)
-			//               |vi||vj|
+			//           (vi,vj)
+			// cos(θ) = ---------  Eq.(9)
+			//           |vi||vj|
 			double cos_theta = (pveci[0] * pvecj[0] + pveci[1] * pvecj[1]) /
 				(pdis[i] * pdis[indices_knni[j]]);
 
@@ -210,8 +209,8 @@ void LPM_Matcher::ComputeMultiScaleCost() {
 	double* pcost = (double*)lpm_cost_.data;
 	for (int i = 0; i < num_matches_; ++i) {		
 		if (pcost[i] <= lambda_)
-			labels_[i] = 1; // pi=1 if ci<=lambda
+			labels_[i] = 1; // pi = 1 if ci <= λ
 		else
-			labels_[i] = 0; // pi=0 if ci>lambda
+			labels_[i] = 0; // pi = 0 if ci > λ
 	}
 }
