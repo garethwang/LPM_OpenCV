@@ -6,11 +6,12 @@ A simple c++ implementation of the LPM algorithm.
 
 - A c++ implementation of the LPM algorithm.
 - The code is based on the MATLAB implementation of [LPM](https://github.com/jiayi-ma/LPM) written by Jiayi Ma. 
-- The k-d tree library(kdtree.h) is written by  [gishi523](https://github.com/gishi523/kd-tree), which is used to perform the K-nearest neighbor search.
+- A c++11 header-only library([nanoflann](https://github.com/jlblancoc/nanoflann)) is used to perform the K-nearest neighbor search.
 
 ## Requirement
 
 - OpenCV
+- nanoflann
 
 ## How to use
 
