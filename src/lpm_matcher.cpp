@@ -1,45 +1,51 @@
 #include "lpm_matcher.h"
-#include "kdtree.h"
-
-/**
- * @brief Class for user-defined 2D points to use the KDTree class. 
- */
-class Point2D :public cv::Vec2d {
-public:
-	static const int DIM = 2;
-	Point2D(cv::Point2d pt) {
-		(*this)[0] = pt.x;
-		(*this)[1] = pt.y;
-	}
-};
+#include "nanoflann/KDTreeVectorOfVectorsAdaptor.h"
 
 /**
  * @brief  Finds K nearest neighbors for the feature points.
  *
- * @return cv::Mat The indices of the K-nearest neighbors found, M*K, CV_32S.
- * @param  features [in] The feature points to index.
- * @param  queries [in] The query points.
- * @param  knn [in] The number of nearest neighbors to search for.
+ * @return cv::Mat The indices of the K - nearest neighbors found, \f$ M\times K\f$, CV_32S.
+ * @param  features[in] The feature points to index.
+ * @param  queries[in] The query points.
+ * @param  knn[in] The number of nearest neighbors to search for.
  */
-static cv::Mat FindKnnNeighbors(const std::vector<cv::Point2d>& features, 
+static cv::Mat FindKnnNeighbors(const std::vector<cv::Point2d>& features,
 	const std::vector<cv::Point2d>& queries, const int knn) {
 
-	// Convert the OpenCV point format to the user-defined point format.
-	std::vector<Point2D> feature_pts;
-	for (int i = 0; i < static_cast<int>(features.size()); ++i) {
-		feature_pts.push_back(features[i]);
+	typedef std::vector<std::vector<double> > vector_of_vectors_t;
+	//Convert point to vector
+	vector_of_vectors_t features_vecs(features.size());
+	for (size_t i = 0; i < features.size(); ++i) {
+		features_vecs[i] = { features[i].x, features[i].y };
 	}
 
-	// Construct a k-d tree.
-	kdt::KDTree<Point2D> kdtree(feature_pts);
+	typedef KDTreeVectorOfVectorsAdaptor<vector_of_vectors_t, double>  kd_tree_t;
+	kd_tree_t pt_index(2, features_vecs, 10);
+	pt_index.index->buildIndex();
 
-	int num_queries = static_cast<int>(queries.size());
-	// Perform a K-nearest neighbor search.
-	cv::Mat indices(num_queries, knn, CV_32S);
-	for (int i = 0; i < num_queries; ++i) {
-		Point2D temp_pt(queries[i]);
-		std::vector<int> vec_indices = kdtree.knnSearch(temp_pt, knn);
-		cv::Mat(vec_indices).reshape(1, 1).copyTo(indices.row(i));
+	// do a knn search
+	vector_of_vectors_t queries_vecs(queries.size());
+	for (size_t i = 0; i < queries.size(); ++i) {
+		queries_vecs[i] = { queries[i].x, queries[i].y };
+	}
+
+	// do a knn search
+	cv::Mat indices((int)queries.size(), knn, CV_32S);
+
+	std::vector<size_t> ret_indexes(knn);
+	std::vector<double> out_dists_sqr(knn);
+
+	nanoflann::KNNResultSet<double> resultSet(knn);
+
+	for (size_t i = 0; i < queries.size(); ++i) {
+		resultSet.init(&ret_indexes[0], &out_dists_sqr[0]);
+		pt_index.index->findNeighbors(resultSet, &queries_vecs[i][0], 
+			nanoflann::SearchParams(10));
+
+		int* ptri = (int*)indices.ptr((int)i);
+		for (int j = 0; j < knn; ++j) {
+			ptri[j] = (int)ret_indexes[j];
+		}
 	}
 
 	return indices;
