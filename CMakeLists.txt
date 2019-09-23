@@ -14,10 +14,13 @@ find_package(OpenCV REQUIRED)
 
 include_directories(${OpenCV_INCLUDE_DIRS})
 
-file(GLOB_RECURSE HEADER_FILES ${CMAKE_CURRENT_SOURCE_DIR}/src/*.h)
-file(GLOB_RECURSE SOURCE_FILES ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp)
+set(SRC_DIR ${CMAKE_SOURCE_DIR}/src)
 
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src)
+file(GLOB_RECURSE HEADER_FILES ${SRC_DIR}/*.h ${SRC_DIR}/*.hpp)
+
+file(GLOB_RECURSE SOURCE_FILES ${SRC_DIR}/*.cpp)
+
+include_directories(${SRC_DIR})
 
 add_executable(demo_lpm demo_lpm.cpp ${SOURCE_FILES} ${HEADER_FILES})
 
